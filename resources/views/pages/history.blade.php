@@ -7,15 +7,16 @@
 
 	<div class="row">
     <form action = "/filter" method = "Post">
-    {{csrf_field()}} <label for = "meeting-time">Choose a time for your appoinment:</label>
-    <input type = "date" name ="sent-at">
+        {{csrf_field()}} 
+        <input type="text" name="name">
+        <input type = "date" name ="sent_at" value="2019-01-01">
 
-    <label for ="cars" > Choose a group:</label>
-    <select name="group_type" id ="97">
-    <option value = "97">Upload</option>
-    <option value ="98">Curation </option>
-    </select>
-    <button type="submit" >Filter </button>
+        
+        <select name="group_type" id ="97">
+            <option value = "upload">Upload</option>
+            <option value ="curation">Curation </option>
+        </select>
+        <button type="submit" >Filter </button>
     </form>
 
 		<div class="col-md-12">
@@ -36,6 +37,10 @@
                 @endforeach 
 				</tbody> 
 			</table>
+            <div style = "text-align: right;">
+            {!! $buffers->render() !!}
+            </div>
+
 		</div>
 	</div>
 </div>

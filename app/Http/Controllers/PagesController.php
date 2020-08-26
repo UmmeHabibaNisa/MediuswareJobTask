@@ -99,24 +99,32 @@ class PagesController extends Controller
         ->join('social_post_groups', 'social_post_groups.id', '=', 'buffer_postings.group_id')
         ->join('users', 'users.id', '=', 'buffer_postings.user_id')
         ->select('buffer_postings.post_text', 'buffer_postings.sent_at', 'social_post_groups.name','social_post_groups.type','users.name as user_name')
-        ->limit(100)
-        ->get();
+        ->paginate(10);
     
         return view('pages.history')->with('buffers', $buffers);  
         
     }
     public function filter(Request $request)
     {
+        if( $request->sent_at == null ) {
+            $request->sent_at = date("Y-m-d H:i:s");   
+        }
+
+        if( $request->name == null ) {
+            $request->name = '';
+        }
+        
+        echo $request->name;
+        echo $request->sent_at;
+
         $buffers = DB::table('buffer_postings')
         ->join('social_post_groups', 'social_post_groups.id', '=', 'buffer_postings.group_id')
         ->join('users', 'users.id', '=', 'buffer_postings.user_id')
-        ->where ([
-            ['social_post_groups.type' ,$request -> group_type],
-            ['buffer_postings.sent_at',$request -> sent_at],
-        ])
+        ->where ('buffer_postings.post_text','LIKE' ,'%'.$request->name.'%')
+        ->where ('social_post_groups.type','=' ,$request->group_type)
+        ->where ('buffer_postings.sent_at', '>', $request->sent_at)
         ->select('buffer_postings.post_text', 'buffer_postings.sent_at', 'social_post_groups.name','social_post_groups.type','users.name as user_name')
-        ->limit(100)
-        ->get();
+        ->paginate(10);
     
         return view('pages.history')->with('buffers', $buffers);  
         
