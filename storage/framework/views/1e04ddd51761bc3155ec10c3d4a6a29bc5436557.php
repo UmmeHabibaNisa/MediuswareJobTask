@@ -5,9 +5,9 @@
 	</h3>
 
 	<div class="row">
-    <form action="<?php echo e(action('PostControllers@filter')); ?>; "method = "Post">
-    @csrf  <label for = "meeting-time">Choose a time for your appoinment:</label>
-    <input type = "datetime" name ="sent-at">
+    <form action = "/filter" method = "Post">
+    <?php echo e(csrf_field()); ?> <label for = "meeting-time">Choose a time for your appoinment:</label>
+    <input type = "date" name ="sent-at">
 
     <label for ="cars" > Choose a group:</label>
     <select name="group_type" id ="97">
